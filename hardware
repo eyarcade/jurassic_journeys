@@ -1,0 +1,27 @@
+/* A simple program to sequentially turn on and turn off 3 LEDs on a breadboard */ 
+
+int LED_blue = 13;
+int LED_yellow = 12;
+int LED_green = 11;
+
+void setup() {
+   pinMode(LED_blue, OUTPUT);
+   pinMode(LED_yellow, OUTPUT);
+   pinMode(LED_green, OUTPUT);
+};
+
+
+void loop() {
+  digitalWrite(LED_blue, ON);    // turn on LED_blue 
+  delay(200);                  // wait for 200ms
+  digitalWrite(LED_yellow, ON);    // turn on LED_yellow
+  delay(200);                  // wait for 200ms       
+  digitalWrite(LED_green, ON);    // turn on LED_green 
+  delay(200);                  // wait for 200ms
+  digitalWrite(LED_blue, OFF);     // turn off LED_blue
+  delay(300);                  // wait for 300ms
+  digitalWrite(LED_yellow, OFF);     // turn off LED_yellow
+  delay(300);                  // wait for 300ms
+  digitalWrite(LED_green, OFF);     // turn off LED_green
+  delay(300);                  // wait for 300ms before running program all over again
+};
