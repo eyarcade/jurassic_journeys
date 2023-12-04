@@ -1,0 +1,107 @@
+#include <ESP8266WiFi.h>
+#include <ArduinoOTA.h>
+
+// Wi-Fi connection parameters
+const char * wifi_ssid = "myy";
+const char * wifi_password = "1q3e/56y'";
+
+// breadboard button variables
+int nbts = 3;
+int startpins = 12;
+int bts[3];
+boolean btgs[3];
+
+
+void setup() {
+
+  // wifi setup code 
+
+  Serial.begin(9600);
+  Serial.println("Booting...");
+  connectToWiFi();
+  setUpOverTheAirProgramming();
+
+  // input output code// 
+
+    for(int i=0; i < nbts; i++) 
+  {
+      bts[i] = i + startpins;
+    
+  }
+  for(int i=0; i < nbts; i++) 
+  {
+      btgs[i] = false;
+  }
+  
+  for(int i=0; i < nbts; i++) 
+  {
+      pinMode(bts[i], INPUT_PULLUP);
+  } 
+
+
+
+}
+
+void connectToWiFi() {
+  Serial.printf("Connecting to '%s'\n", wifi_ssid);
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(wifi_ssid, wifi_password);
+  if (WiFi.waitForConnectResult() == WL_CONNECTED) {
+    Serial.print("Connected. IP: ");
+    Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("Connection Failed!");
+  }
+}
+
+void setUpOverTheAirProgramming() {
+
+  // Change OTA port. 
+  // Default: 8266
+  // ArduinoOTA.setPort(8266);
+
+  // Change the name of how it is going to 
+  // show up in Arduino IDE.
+  // Default: esp8266-[ChipID]
+  // ArduinoOTA.setHostname("myesp8266");
+
+  // Re-programming passowrd. 
+  // No password by default.
+  // ArduinoOTA.setPassword("123");
+
+  ArduinoOTA.begin();
+}
+
+
+void loop() {
+  // Give processing time for ArduinoOTA
+  ArduinoOTA.handle();
+
+  // loop for button input/output
+
+    for (int i = 0; i < nbts; i++) {
+    if(!btgs[i]) {
+      if ( digitalRead(bts[i])==LOW) {
+        Serial.print("bt" + String(i) + ":");
+        Serial.println(1);
+        btgs[i] = true;
+       
+      }
+      
+    }
+    
+    else {
+      if ( digitalRead(bts[i])==HIGH) {
+        Serial.print("bt" + String(i) + ":");
+        Serial.println(0);
+        btgs[i] = false;
+      }
+    }
+  }
+
+delay(15);
+
+
+
+}
