@@ -1,0 +1,44 @@
+// Uduino settings
+#include <Uduino_Wifi.h>
+Uduino_Wifi uduino("uduinoBoard"); // Declare and name your object
+
+void setup()
+{
+  Serial.begin(9600);
+
+  // Optional function,  to add BEFORE connectWifi(...)
+  uduino.setPort(4222);   // default 4222
+
+  uduino.useSendBuffer(true); // default true
+  uduino.setConnectionTries(35); // default 35
+  uduino.useSerial(true); // default is true
+
+  // mendatory function
+  uduino.connectWifi("myy", "1q3e/56y'");
+}
+
+void loop()
+{
+  uduino.update();
+
+  if (uduino.isConnected()) {
+    // String
+    uduino.println("Printing a string.");
+
+    // words / chars
+    uduino.print("Printing a ");
+    uduino.print("serie of ");
+    uduino.print("words.");
+    uduino.println();
+
+    // char
+    uduino.println('a');
+
+    // int
+    uduino.println(0);
+
+    // float: the second parameter after the coma is the number of decimals
+    uduino.println(0.123456789, 5);
+    uduino.delay(500);
+  }
+}
